@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>母亲节快乐</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft YaHei', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.3) 0%, rgba(219, 112, 147, 0.4) 100%);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .message-container {
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .message {
+            font-size: 1.8rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+
+        .message.active {
+            opacity: 1;
+        }
+
+        .flowers {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+            animation: float 3s ease-in-out infinite;
+            color: #ff7eb3;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 126, 179, 0.8);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            background-color: rgba(255, 105, 180, 0.9);
+        }
+
+        .music-control i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .signature {
+            margin-top: 2rem;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 1.5rem;
+            color: rgba(255, 126, 179, 0.7);
+            animation: float-up 6s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 新增花瓣飘落效果 */
+        .petals {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            animation: falling linear infinite;
+        }
+
+        @keyframes falling {
+            0% {
+                transform: translateY(-10%) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    <div class="petals" id="petals"></div>
+    
+    <div class="container">
+        <h1>母亲节快乐</h1>
+        <div class="flowers">🌹🌸🌺🌷💐</div>
+        
+        <div class="message-container">
+            <div class="message active" id="message1"></div>
+            <div class="message" id="message2"></div>
+            <div class="message" id="message3"></div>
+        </div>
+        
+        <div class="signature">—— 永远爱您的孩子</div>
+    </div>
+    
+    <div class="music-control" id="musicControl">
+        <i class="fas fa-music"></i>
+    </div>
+    
+    <audio id="bgMusic" loop>
+        <source src="https://music.163.com/song/media/outer/url?id=28188171.mp3" type="audio/mpeg">
+        <!-- 替换为实际的音乐链接 -->
+    </audio>
+    
+    <script>
+        // 祝福语数组
+        const messages = [
+            "亲爱的妈妈，感谢您无私的爱与付出，祝您母亲节快乐！",
+            "世上最美好的声音是母亲的呼唤，祝我最爱的妈妈节日快乐！",
+            "妈妈，您的爱如春风般温暖，如阳光般灿烂，祝您健康长寿！",
+            "岁月带走了您的青春，却带不走您在我心中的美丽，妈妈我爱您！",
+            "母爱是世界上最伟大的力量，感谢您一直以来的支持与鼓励！",
+            "妈妈，您是我生命中最重要的人，愿您永远幸福安康！",
+            "您的爱如大海般深邃，如天空般广阔，祝母亲节快乐！",
+            "千言万语汇成一句话：妈妈，我爱您！母亲节快乐！",
+            "感谢您为我遮风挡雨，现在换我来守护您，妈妈节日快乐！",
+            "您的微笑是我最大的幸福，愿您每天都能开心快乐！",
+            "妈妈，您是我人生中最美的风景，祝您节日快乐！",
+            "您的怀抱是我永远的港湾，我爱您，妈妈！"
+        ];
+        
+        // 当前显示的祝福语索引
+        let currentMessageIndex = 0;
+        const messageElements = [
+            document.getElementById('message1'),
+            document.getElementById('message2'),
+            document.getElementById('message3')
+        ];
+        
+        // 初始化第一条消息
+        messageElements[0].textContent = messages[0];
+        
+        // 切换祝福语
+        function rotateMessages() {
+            const nextMessageIndex = (currentMessageIndex + 1) % messages.length;
+            const nextElementIndex = (currentMessageIndex % 2) + 1; // 在2和3之间切换
+            
+            // 隐藏当前活跃的消息
+            document.querySelector('.message.active').classList.remove('active');
+            
+            // 设置新消息并显示
+            messageElements[nextElementIndex].textContent = messages[nextMessageIndex];
+            messageElements[nextElementIndex].classList.add('active');
+            
+            currentMessageIndex = nextMessageIndex;
+            
+            // 设置下一次切换
+            setTimeout(rotateMessages, 3000);
+        }
+        
+        // 3秒后开始切换
+        setTimeout(rotateMessages, 3000);
+        
+        // 背景音乐控制
+        const musicControl = document.getElementById('musicControl');
+        const bgMusic = document.getElementById('bgMusic');
+        let isMusicPlaying = false;
+        
+        musicControl.addEventListener('click', function() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicControl.innerHTML = '<i class="fas fa-music"></i>';
+            } else {
+                bgMusic.play().catch(e => console.log("自动播放被阻止，请点击音乐按钮播放"));
+                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+        
+        // 创建漂浮的心形
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = 6 + Math.random() * 6 + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (1 + Math.random() * 2) + 'rem';
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // 创建花瓣飘落效果
+        function createPetals() {
+            const petalsContainer = document.getElementById('petals');
+            const petalCount = 15;
+            const petalTypes = ['🌸', '🌺', '🌷', '💮', '🏵️'];
+            
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.innerHTML = petalTypes[Math.floor(Math.random() * petalTypes.length)];
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDuration = 10 + Math.random() * 10 + 's';
+                petal.style.animationDelay = Math.random() * 5 + 's';
+                petal.style.fontSize = (1 + Math.random() * 3) + 'rem';
+                petalsContainer.appendChild(petal);
+            }
+        }
+        
+        // 页面加载后创建动画元素
+        window.addEventListener('load', function() {
+            createHearts();
+            createPetals();
+            
+            // 尝试自动播放音乐（可能会被浏览器阻止）
+            bgMusic.volume = 0.3;
+            const playPromise = bgMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    // 自动播放被阻止
+                    musicControl.innerHTML = '<i class="fas fa-music"></i>';
+                    isMusicPlaying = false;
+                }).then(() => {
+                    // 自动播放成功
+                    musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+                    isMusicPlaying = true;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
