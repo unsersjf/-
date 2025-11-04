@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>温馨提示弹窗</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
+      overflow: hidden; /* 防止滚动条出现 */
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+
+    .tip-box {
+      position: absolute;
+      width: 250px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+      user-select: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const MAX_WINDOWS = 300;
+  let windowCount = 0;
+
+  const tips = [
+    '多喝水哦~', '保持微笑呀', '每天都要元气满满',
+    '记得吃水果', '保持好心情', '好好爱自己', '我想你了',
+    '梦想成真', '期待下一次见面', '金榜题名',
+    '顺顺利利', '早点休息', '愿所有烦恼都消失',
+    '别熬夜', '今天过得开心嘛', '天冷了，多穿衣服',
+    '你是最棒的！', '慢慢来，别着急', '阳光总在风雨后',
+    '记得深呼吸', '给自己一个拥抱', '你值得被爱',
+    '今天也要加油鸭！', '星星会照亮你的路',
+    '生活因你而美好', '世界因你而温柔'
+  ];
+
+  const bgColors = [
+    'lightpink', 'skyblue', 'lightgreen', 'lavender',
+    'lightyellow', 'plum', 'coral', 'bisque', 'aquamarine',
+    'mistyrose', 'honeydew', 'lavenderblush', 'oldlace',
+    'peachpuff', 'powderblue', 'thistle', 'wheat'
+  ];
+
+  function createWarmTip() {
+    if (windowCount >= MAX_WINDOWS) {
+      console.log(`已达到最大弹窗数量（${MAX_WINDOWS}个），自动暂停`);
+      return;
+    }
+
+    const tipBox = document.createElement('div');
+    tipBox.className = 'tip-box';
+
+    // 随机提示语
+    const tip = tips[Math.floor(Math.random() * tips.length)];
+    tipBox.textContent = tip;
+
+    // 随机背景色
+    const bg = bgColors[Math.floor(Math.random() * bgColors.length)];
+    tipBox.style.backgroundColor = bg;
+
+    // 随机位置（确保不超出屏幕）
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const boxWidth = 250;
+    const boxHeight = 60;
+
+    const x = Math.random() * (screenWidth - boxWidth);
+    const y = Math.random() * (screenHeight - boxHeight);
+
+    tipBox.style.left = `${x}px`;
+    tipBox.style.top = `${y}px`;
+
+    document.body.appendChild(tipBox);
+    windowCount++;
+
+    // 可选：几秒后自动消失（比如5秒）
+    // setTimeout(() => {
+    //   if (tipBox.parentNode) tipBox.parentNode.removeChild(tipBox);
+    // }, 5000);
+  }
+
+  // 每 300 毫秒创建一个提示框
+  const interval = setInterval(() => {
+    if (windowCount < MAX_WINDOWS) {
+      createWarmTip();
+    } else {
+      clearInterval(interval);
+    }
+  }, 300);
+</script>
+
+</body>
+</html>
+
+
